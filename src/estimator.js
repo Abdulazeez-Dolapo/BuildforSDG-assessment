@@ -15,7 +15,7 @@ const covid19ImpactEstimator = (data) => {
   impact.currentlyInfected = data.reportedCases * 10;
   severeImpact.currentlyInfected = data.reportedCases * 50;
 
-  const exponent = Math.floor(numberOfDays / 3);
+  const exponent = Math.trunc(numberOfDays / 3);
 
   const infections = impact.currentlyInfected * (2 ** exponent);
   const sInfections = severeImpact.currentlyInfected * (2 ** exponent);
@@ -31,24 +31,24 @@ const covid19ImpactEstimator = (data) => {
   const ventilators = 0.02 * infections;
   const sVentilators = 0.02 * infections;
 
-  impact.infectionsByRequestedTime = Math.floor(
+  impact.infectionsByRequestedTime = Math.trunc(
     impact.currentlyInfected * (2 ** exponent)
   );
-  severeImpact.infectionsByRequestedTime = Math.floor(
+  severeImpact.infectionsByRequestedTime = Math.trunc(
     severeImpact.currentlyInfected * (2 ** exponent)
   );
 
-  impact.severeCasesByRequestedTime = Math.floor(severeCases);
-  severeImpact.severeCasesByRequestedTime = Math.floor(sSevereCases);
+  impact.severeCasesByRequestedTime = Math.trunc(severeCases);
+  severeImpact.severeCasesByRequestedTime = Math.trunc(sSevereCases);
 
-  impact.hospitalBedsByRequestedTime = Math.floor(bedAvailability - severeCases);
-  severeImpact.hospitalBedsByRequestedTime = Math.floor(bedAvailability - sSevereCases);
+  impact.hospitalBedsByRequestedTime = Math.trunc(bedAvailability - severeCases);
+  severeImpact.hospitalBedsByRequestedTime = Math.trunc(bedAvailability - sSevereCases);
 
-  impact.casesForICUByRequestedTime = Math.floor(icu);
-  severeImpact.casesForICUByRequestedTime = Math.floor(sIcu);
+  impact.casesForICUByRequestedTime = Math.trunc(icu);
+  severeImpact.casesForICUByRequestedTime = Math.trunc(sIcu);
 
-  impact.casesForVentilatorsByRequestedTime = Math.floor(ventilators);
-  severeImpact.casesForVentilatorsByRequestedTime = Math.floor(sVentilators);
+  impact.casesForVentilatorsByRequestedTime = Math.trunc(ventilators);
+  severeImpact.casesForVentilatorsByRequestedTime = Math.trunc(sVentilators);
 
   const majorityEarning = data.region.avgDailyIncomePopulation;
   const avgDailyIncome = data.region.avgDailyIncomeInUSD;
