@@ -18,11 +18,11 @@ const covid19ImpactEstimator = (data) => {
   const exponent = Math.floor(numberOfDays / 3);
 
   impact.infectionsByRequestedTime = Math.floor(
-    impact.currentlyInfected * 2 ** exponent
+    impact.currentlyInfected * (2 ** exponent)
   );
 
   severeImpact.infectionsByRequestedTime = Math.floor(
-    severeImpact.currentlyInfected * 2 ** exponent
+    severeImpact.currentlyInfected * (2 ** exponent)
   );
 
   impact.severeCasesByRequestedTime = Math.floor(0.15 * impact.infectionsByRequestedTime);
@@ -30,13 +30,12 @@ const covid19ImpactEstimator = (data) => {
   severeImpact.severeCasesByRequestedTime = Math.floor(0.15
     * severeImpact.infectionsByRequestedTime);
 
-  const bedAvailability = 0.35 * data.totalHospitalBeds;
+  const bedAvailability = Math.floor(0.35 * data.totalHospitalBeds);
 
-  impact.hospitalBedsByRequestedTime = Math.floor(bedAvailability
-    - impact.severeCasesByRequestedTime);
+  impact.hospitalBedsByRequestedTime = bedAvailability - impact.severeCasesByRequestedTime;
 
-  severeImpact.hospitalBedsByRequestedTime = Math.floor(bedAvailability
-  - severeImpact.severeCasesByRequestedTime);
+  severeImpact.hospitalBedsByRequestedTime = bedAvailability
+    - severeImpact.severeCasesByRequestedTime;
 
   impact.casesForICUByRequestedTime = Math.floor(0.05 * impact.infectionsByRequestedTime);
 
@@ -51,11 +50,11 @@ const covid19ImpactEstimator = (data) => {
   const majorityEarning = data.region.avgDailyIncomePopulation;
   const avgDailyIncome = data.region.avgDailyIncomeInUSD;
 
-  impact.dollarsInFlight = impact.infectionsByRequestedTime
-    * majorityEarning * avgDailyIncome * numberOfDays;
+  impact.dollarsInFlight = (impact.infectionsByRequestedTime
+    * majorityEarning * avgDailyIncome * numberOfDays).toFixed(2);
 
-  severeImpact.dollarsInFlight = severeImpact.infectionsByRequestedTime
-    * majorityEarning * avgDailyIncome * numberOfDays;
+  severeImpact.dollarsInFlight = (severeImpact.infectionsByRequestedTime
+    * majorityEarning * avgDailyIncome * numberOfDays).toFixed(2);
 
   const result = {
     data,
