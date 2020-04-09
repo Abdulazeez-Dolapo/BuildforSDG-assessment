@@ -17,35 +17,38 @@ const covid19ImpactEstimator = (data) => {
 
   const exponent = Math.floor(numberOfDays / 3);
 
+  const infections = impact.currentlyInfected * (2 ** exponent)
+  const sInfections = severeImpact.currentlyInfected * (2 ** exponent)
+
+  const severeCases = 0.15 * infections
+  const sSevereCases = 0.15 * sInfections
+
+  const bedAvailability = 0.35 * data.totalHospitalBeds;
+
+  const icu = 0.05 * infections
+  const sIcu = 0.05 * sInfections
+
+  const ventilators = 0.02 * infections
+  const sVentilators = 0.02 * infections
+
   impact.infectionsByRequestedTime = Math.floor(
     impact.currentlyInfected * (2 ** exponent)
   );
-
   severeImpact.infectionsByRequestedTime = Math.floor(
     severeImpact.currentlyInfected * (2 ** exponent)
   );
 
-  impact.severeCasesByRequestedTime = Math.floor(0.15 * impact.infectionsByRequestedTime);
+  impact.severeCasesByRequestedTime = Math.floor(severeCases);
+  severeImpact.severeCasesByRequestedTime = Math.floor(sSevereCases);
 
-  severeImpact.severeCasesByRequestedTime = Math.floor(0.15
-    * severeImpact.infectionsByRequestedTime);
+  impact.hospitalBedsByRequestedTime = Math.floor(bedAvailability - severeCases);
+  severeImpact.hospitalBedsByRequestedTime = Math.floor(bedAvailability - sSevereCases);
 
-  const bedAvailability = Math.floor(0.35 * data.totalHospitalBeds);
+  impact.casesForICUByRequestedTime = Math.floor(icu);
+  severeImpact.casesForICUByRequestedTime = Math.floor(sIcu);
 
-  impact.hospitalBedsByRequestedTime = bedAvailability - impact.severeCasesByRequestedTime;
-
-  severeImpact.hospitalBedsByRequestedTime = bedAvailability
-    - severeImpact.severeCasesByRequestedTime;
-
-  impact.casesForICUByRequestedTime = Math.floor(0.05 * impact.infectionsByRequestedTime);
-
-  severeImpact.casesForICUByRequestedTime = Math.floor(0.05
-    * severeImpact.infectionsByRequestedTime);
-
-  impact.casesForVentilatorsByRequestedTime = Math.floor(0.02 * impact.infectionsByRequestedTime);
-
-  severeImpact.casesForVentilatorsByRequestedTime = Math.floor(0.02
-    * severeImpact.infectionsByRequestedTime);
+  impact.casesForVentilatorsByRequestedTime = Math.floor(ventilators);
+  severeImpact.casesForVentilatorsByRequestedTime = Math.floor(sVentilators);
 
   const majorityEarning = data.region.avgDailyIncomePopulation;
   const avgDailyIncome = data.region.avgDailyIncomeInUSD;
