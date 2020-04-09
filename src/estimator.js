@@ -17,19 +17,19 @@ const covid19ImpactEstimator = (data) => {
 
   const exponent = Math.floor(numberOfDays / 3);
 
-  const infections = impact.currentlyInfected * (2 ** exponent)
-  const sInfections = severeImpact.currentlyInfected * (2 ** exponent)
+  const infections = impact.currentlyInfected * (2 ** exponent);
+  const sInfections = severeImpact.currentlyInfected * (2 ** exponent);
 
-  const severeCases = 0.15 * infections
-  const sSevereCases = 0.15 * sInfections
+  const severeCases = 0.15 * infections;
+  const sSevereCases = 0.15 * sInfections;
 
   const bedAvailability = 0.35 * data.totalHospitalBeds;
 
-  const icu = 0.05 * infections
-  const sIcu = 0.05 * sInfections
+  const icu = 0.05 * infections;
+  const sIcu = 0.05 * sInfections;
 
-  const ventilators = 0.02 * infections
-  const sVentilators = 0.02 * infections
+  const ventilators = 0.02 * infections;
+  const sVentilators = 0.02 * infections;
 
   impact.infectionsByRequestedTime = Math.floor(
     impact.currentlyInfected * (2 ** exponent)
