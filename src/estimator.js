@@ -30,21 +30,22 @@ const covid19ImpactEstimator = (data) => {
   severeImpact.severeCasesByRequestedTime = Math.floor(0.15
     * severeImpact.infectionsByRequestedTime);
 
-  const bedAvailability = 0.35 * data.totalHospitalBeds;
+  const bedAvailability = Math.floor(0.35 * data.totalHospitalBeds);
 
-  impact.hospitalBedsByRequestedTime = Math.floor(bedAvailability
-    - impact.severeCasesByRequestedTime);
+  impact.hospitalBedsByRequestedTime = bedAvailability - impact.severeCasesByRequestedTime;
 
-  severeImpact.hospitalBedsByRequestedTime = Math.floor(bedAvailability
-    - severeImpact.severeCasesByRequestedTime);
+  severeImpact.hospitalBedsByRequestedTime = bedAvailability
+  - severeImpact.severeCasesByRequestedTime;
 
-  impact.casesForICUByRequestedTime = 0.05 * impact.infectionsByRequestedTime;
+  impact.casesForICUByRequestedTime = Math.floor(0.05 * impact.infectionsByRequestedTime);
 
-  severeImpact.casesForICUByRequestedTime = 0.05 * severeImpact.infectionsByRequestedTime;
+  severeImpact.casesForICUByRequestedTime = Math.floor(0.05
+    * severeImpact.infectionsByRequestedTime);
 
-  impact.casesForVentilatorsByRequestedTime = 0.02 * impact.infectionsByRequestedTime;
+  impact.casesForVentilatorsByRequestedTime = Math.floor(0.02 * impact.infectionsByRequestedTime);
 
-  severeImpact.casesForVentilatorsByRequestedTime = 0.02 * severeImpact.infectionsByRequestedTime;
+  severeImpact.casesForVentilatorsByRequestedTime = Math.floor(0.02
+    * severeImpact.infectionsByRequestedTime);
 
   const majorityEarning = data.region.avgDailyIncomePopulation;
   const avgDailyIncome = data.region.avgDailyIncomeInUSD;
